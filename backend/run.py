@@ -119,7 +119,7 @@ def print_server_info():
 {Colors.OKGREEN}WebSocket:{Colors.ENDC}        ws://127.0.0.1:8000/ws/{{client_id}}
 
 {Colors.BOLD}Frontend Communication:{Colors.ENDC}
-{Colors.OKGREEN}Frontend URL:{Colors.ENDC}     http://localhost:5173
+{Colors.OKGREEN}Frontend URL:{Colors.ENDC}     http://localhost:8080
 {Colors.OKGREEN}CORS Enabled:{Colors.ENDC}     ✓ Ready for frontend requests
 
 {Colors.WARNING}CRITICAL:{Colors.ENDC}

@@ -120,7 +120,7 @@ VITE_APP_VERSION=1.0.0
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+The application will be available at `http://localhost:8080`
 
 ## 🔐 Authentication Setup
 

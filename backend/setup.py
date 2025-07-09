@@ -136,25 +136,26 @@ def setup_environment_file():
         env_content = """# DataGenesis AI Backend Configuration
 
 # Database
-SUPABASE_URL=your_supabase_url
-SUPABASE_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+SUPABASE_URL=https://yrwcudnujriyppmpxtko.supabase.co
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlyd2N1ZG51anJpeXBwbXB4dGtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NDQ4NzgsImV4cCI6MjA2NzIyMDg3OH0.qKktoZ_cg0zUbPtJiLlindE4iNUExPp3txtZrhOP9SY
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlyd2N1ZG51anJpeXBwbXB4dGtvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTY0NDg3OCwiZXhwIjoyMDY3MjIwODc4fQ.oPHhxSMmV2CaZm_RpmY-A06FqRCcaf4iQ2Py1dosYt8
+
 
 # Redis (for production, use local Redis for development)
-REDIS_URL=redis://localhost:6379
-REDIS_PASSWORD=
+REDIS_URL=redis://default:2kjMvjplKbYLVZSrNftrWfFfC6bGNak9@redis-13890.c16.us-east-1-3.ec2.redns.redis-cloud.com:13890
+REDIS_PASSWORD=2kjMvjplKbYLVZSrNftrWfFfC6bGNak9
 
 # AI Services
-GEMINI_API_KEY=your_gemini_api_key
-GOOGLE_CLOUD_PROJECT_ID=your_gcp_project_id
+GEMINI_API_KEY=AIzaSyDOFWw2dk2W28l52mXJxJXrcdYbxsQz13s
+GOOGLE_CLOUD_PROJECT_ID=gen-lang-client-0626319060
 
 # Vector Database (optional for enhanced features)
-PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_API_KEY=pcsk_5bsEtw_SwNGTxmapgiejijc9sYQ6X3ygsToxgzeutJ2Rj3xVpbApPbueQ9n1eNKYY8Di23
 PINECONE_ENVIRONMENT=us-east-1-aws
-PINECONE_INDEX_NAME=datagenesis-embeddings
+PINECONE_INDEX_NAME=databank
 
 # Security
-SECRET_KEY=your-super-secret-key-here-change-this-in-production
+SECRET_KEY=databank@super_secure_key115
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
@@ -164,7 +165,7 @@ MAX_DATASET_SIZE_MB=100
 DEFAULT_CACHE_TTL=3600
 
 # CORS Origins (add your frontend URL)
-CORS_ORIGINS=http://localhost:5173,https://localhost:5173
+CORS_ORIGINS=http://localhost:8080,https://localhost:8080
 """
         
         try:
@@ -237,7 +238,7 @@ def print_next_steps(env_name):
    Health Check: http://localhost:8000/api/health
 
 {Colors.WARNING}Important:{Colors.ENDC}
-- The frontend should run on http://localhost:5173
+- The frontend should run on http://localhost:8080
 - Backend will run on http://localhost:8000
 - CORS is configured to allow frontend-backend communication
 - Make sure both frontend and backend are running for full functionality
