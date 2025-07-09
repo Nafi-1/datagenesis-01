@@ -28,7 +28,7 @@ class GenerationRequest(BaseModel):
                     "diagnosis": {"type": "string", "description": "Medical diagnosis"}
                 },
                 "config": {
-                    "row_count": 10000,
+                    "row_count": 1000,
                     "privacy_level": "maximum",
                     "quality_level": "high"
                 }

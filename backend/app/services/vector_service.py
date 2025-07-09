@@ -49,13 +49,13 @@ class VectorService:
                 environment=settings.pinecone_environment
             )
         
-        # Create index if it doesn't exist
-        if settings.pinecone_index_name not in pinecone.list_indexes():
-            pinecone.create_index(
-                name=settings.pinecone_index_name,
-                dimension=384,  # all-MiniLM-L6-v2 dimension
-                metric='cosine'
-            )
+            # Create index if it doesn't exist
+            if settings.pinecone_index_name not in pinecone.list_indexes():
+                pinecone.create_index(
+                    name=settings.pinecone_index_name,
+                    dimension=384,  # all-MiniLM-L6-v2 dimension
+                    metric='cosine'
+                )
             
             self.index = pinecone.Index(settings.pinecone_index_name)
             self.is_initialized = True
