@@ -1,23 +1,53 @@
-import pinecone
+try:
+    import pinecone
+    from sentence_transformers import SentenceTransformer
+    VECTOR_DEPENDENCIES_AVAILABLE = True
+except ImportError:
+    VECTOR_DEPENDENCIES_AVAILABLE = False
+    pinecone = None
+    SentenceTransformer = None
+
 from typing import List, Dict, Any, Optional, Tuple
 import numpy as np
-from sentence_transformers import SentenceTransformer
 import json
+import logging
 
 from ..config import settings
+
+logger = logging.getLogger(__name__)
 
 class VectorService:
     def __init__(self):
         self.pinecone_client = None
         self.index = None
-        self.embeddings_model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.embeddings_model = None
+        self.is_initialized = False
+        
+        if not VECTOR_DEPENDENCIES_AVAILABLE:
+            logger.warning("⚠️ Vector service dependencies not available. Install sentence-transformers and pinecone-client.")
+        else:
+            try:
+                self.embeddings_model = SentenceTransformer('all-MiniLM-L6-v2')
+                logger.info("✅ SentenceTransformer model loaded successfully")
+            except Exception as e:
+                logger.error(f"❌ Failed to load SentenceTransformer: {e}")
+                self.embeddings_model = None
         
     async def initialize(self):
         """Initialize Pinecone connection"""
-        pinecone.init(
-            api_key=settings.pinecone_api_key,
-            environment=settings.pinecone_environment
-        )
+        if not VECTOR_DEPENDENCIES_AVAILABLE:
+            logger.warning("⚠️ Vector service cannot initialize - dependencies missing")
+            return False
+            
+        if not self.embeddings_model:
+            logger.warning("⚠️ Vector service cannot initialize - SentenceTransformer model not loaded")
+            return False
+            
+        try:
+            pinecone.init(
+                api_key=settings.pinecone_api_key,
+                environment=settings.pinecone_environment
+            )
         
         # Create index if it doesn't exist
         if settings.pinecone_index_name not in pinecone.list_indexes():
@@ -27,11 +57,18 @@ class VectorService:
                 metric='cosine'
             )
             
-        self.index = pinecone.Index(settings.pinecone_index_name)
-        print("✅ Pinecone vector database connected")
+            self.index = pinecone.Index(settings.pinecone_index_name)
+            self.is_initialized = True
+            logger.info("✅ Pinecone vector database connected")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize Pinecone: {e}")
+            return False
         
     def generate_embeddings(self, texts: List[str]) -> np.ndarray:
         """Generate embeddings for texts"""
+        if not self.embeddings_model:
+            raise RuntimeError("Embeddings model not available")
         return self.embeddings_model.encode(texts)
         
     async def store_dataset_embeddings(

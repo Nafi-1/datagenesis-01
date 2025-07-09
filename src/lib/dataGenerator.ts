@@ -91,7 +91,7 @@ export class DataGeneratorService {
     });
   }
 
-  async generateSchemaFromDescription(domain: string, dataType: string): Promise<any> {
+  async generateSchemaFromDescription(description: string, domain: string, dataType: string): Promise<any> {
     try {
       // Try to call backend API first
       const response = await fetch('/api/generation/schema-from-description', {
@@ -100,6 +100,7 @@ export class DataGeneratorService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          description,
           domain,
           data_type: dataType
         }),

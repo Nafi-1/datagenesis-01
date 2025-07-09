@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { DataGeneratorService } from '../lib/dataGenerator';
 import { useStore } from '../store/useStore';
-import { supabase } from '../lib/supabase';
+// import { supabase } from '../lib/supabase';
 import { ApiService } from '../lib/api';
 import { useWebSocket } from '../hooks/useWebSocket';
 import { 
   Database, 
   Upload, 
-  Settings, 
+  // Settings, 
   Play, 
   Download,
   FileText,
   Image,
   BarChart3,
-  Calendar,
+  // Calendar,
   Brain,
   Shield,
   Zap,
@@ -38,10 +38,10 @@ const DataGenerator: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [uploadedData, setUploadedData] = useState<any>(null);
   const [generatedData, setGeneratedData] = useState<any>(null);
-  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  // const [currentJobId, setCurrentJobId] = useState<string | null>(null);
   const [generationProgress, setGenerationProgress] = useState(0);
-  const [generationSteps, setGenerationSteps] = useState<string[]>([]);
-  const [currentStep, setCurrentStep] = useState<string>('');
+  // const [generationSteps, setGenerationSteps] = useState<string[]>([]);
+  // const [currentStep, setCurrentStep] = useState<string>('');
   const [realtimeLogs, setRealtimeLogs] = useState<string[]>([]);
   const [geminiStatus, setGeminiStatus] = useState<'unknown' | 'online' | 'offline'>('unknown');
   const [inputMethod, setInputMethod] = useState<'upload' | 'describe'>('describe');
@@ -58,7 +58,7 @@ const DataGenerator: React.FC = () => {
   
   const { user, isGuest } = useStore();
   const dataService = new DataGeneratorService();
-  const { lastMessage } = useWebSocket();
+  const { lastMessage } = useWebSocket("guest_user");
 
   // Check backend health on component mount
   useEffect(() => {
@@ -83,7 +83,7 @@ const DataGenerator: React.FC = () => {
         const geminiStatusFromHealth = health.data?.services?.gemini?.status || 'unknown';
         addRealtimeLog(`💚 Backend connected | Gemini: ${geminiStatusFromHealth}`);
       } else {
-        addRealtimeLog(`💔 Backend failed: ${health.error}`);
+        addRealtimeLog(`💔 Backend failed: Connection error`);
         setGeminiStatus('offline');
       }
     } catch (error) {
@@ -112,8 +112,8 @@ const DataGenerator: React.FC = () => {
       }
       
       if (data.step && data.message) {
-        setCurrentStep(data.message);
-        setGenerationSteps(prev => [...prev.slice(-4), `[${data.progress}%] ${data.message}`]);
+        // setCurrentStep(data.message);
+        // setGenerationSteps(prev => [...prev.slice(-4), `[${data.progress}%] ${data.message}`]);
         
         // Add to realtime logs with better formatting
         if (data.message.includes('Gemini')) {
@@ -282,8 +282,8 @@ const DataGenerator: React.FC = () => {
     setIsGenerating(true);
     setGenerationStep(3);
     setGenerationProgress(0);
-    setGenerationSteps([]);
-    setCurrentStep('Starting generation...');
+    // setGenerationSteps([]);
+    // setCurrentStep('Starting generation...');
     
     
     try {

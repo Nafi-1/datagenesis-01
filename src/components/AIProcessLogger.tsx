@@ -16,10 +16,11 @@ interface AIStep {
 
 interface AIProcessLoggerProps {
   isVisible: boolean;
-  onClose: () => void;
+  isGenerating?: boolean;
+  onClose?: () => void;
 }
 
-const AIProcessLogger: React.FC<AIProcessLoggerProps> = ({ isVisible, onClose }) => {
+const AIProcessLogger: React.FC<AIProcessLoggerProps> = ({ isVisible, isGenerating = false, onClose }) => {
   const [steps, setSteps] = useState<AIStep[]>([]);
   
   const { isConnected, sendMessage } = useWebSocket('/ws/generation', {
@@ -92,12 +93,14 @@ const AIProcessLogger: React.FC<AIProcessLoggerProps> = ({ isVisible, onClose })
             <Brain className="w-6 h-6 text-purple-400" />
             <h2 className="text-xl font-semibold text-white">AI Process Monitor</h2>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            ✕
-          </button>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
         {!isConnected && (

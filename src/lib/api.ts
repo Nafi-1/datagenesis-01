@@ -9,10 +9,13 @@ export const api = axios.create({
 });
 
 export class ApiService {
-  static async healthCheck(): Promise<{ healthy: boolean }> {
+  static async healthCheck(): Promise<{ healthy: boolean; data?: any }> {
     try {
       const response = await api.get('/health');
-      return { healthy: response.status === 200 };
+      return { 
+        healthy: response.status === 200,
+        data: response.data
+      };
     } catch (error) {
       console.error('Health check failed:', error);
       return { healthy: false };

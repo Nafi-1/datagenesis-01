@@ -6,12 +6,16 @@ import uuid
 import logging
 
 from .gemini_service import GeminiService
+from .redis_service import RedisService
+from .vector_service import VectorService
 
 logger = logging.getLogger(__name__)
 
 class AgentOrchestrator:
-    def __init__(self):
-        self.gemini_service = GeminiService()
+    def __init__(self, redis_service=None, gemini_service=None, vector_service=None):
+        self.gemini_service = gemini_service or GeminiService()
+        self.redis_service = redis_service or RedisService()
+        self.vector_service = vector_service or VectorService()
         self.agents = {
             "privacy_agent": PrivacyAgent(),
             "quality_agent": QualityAgent(), 
@@ -25,8 +29,10 @@ class AgentOrchestrator:
         """Initialize the orchestrator and all agents"""
         logger.info("🤖 Initializing Multi-Agent Orchestrator...")
         
-        # Initialize Gemini service
+        # Initialize services  
         await self.gemini_service.initialize()
+        await self.redis_service.initialize()
+        await self.vector_service.initialize()
         
         # Initialize all agents
         for agent_name, agent in self.agents.items():

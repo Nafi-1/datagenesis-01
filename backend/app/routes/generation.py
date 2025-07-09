@@ -22,7 +22,7 @@ redis_service = RedisService()
 gemini_service = GeminiService()
 vector_service = VectorService()
 supabase_service = SupabaseService()
-orchestrator = AgentOrchestrator(redis_service, gemini_service, vector_service)
+orchestrator = AgentOrchestrator()
 
 logger = logging.getLogger(__name__)
 
@@ -340,7 +340,7 @@ async def generate_local_data(
         logger.info(f"📊 Local generation: {len(schema)} fields, {config.get('rowCount', 100)} rows")
         
         # Use Gemini to generate synthetic data
-        synthetic_data = await gemini_service.generate_synthetic_data_from_schema(
+        synthetic_data = await gemini_service.generate_synthetic_data(
             schema, config, description
         )
         
