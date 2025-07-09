@@ -8,12 +8,12 @@ class GenerationRequest(BaseModel):
     domain: str
     data_type: str  # tabular, timeseries, text, image
     source_data: List[Dict[str, Any]] = []
-    schema: Dict[str, Any] = {}
+    dataset_schema: Dict[str, Any] = {}
     description: Optional[str] = None
     config: Dict[str, Any] = {}
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "domain": "healthcare",
                 "data_type": "tabular",
@@ -22,7 +22,7 @@ class GenerationRequest(BaseModel):
                     {"patient_id": "P001", "age": 45, "diagnosis": "diabetes"},
                     {"patient_id": "P002", "age": 32, "diagnosis": "hypertension"}
                 ],
-                "schema": {
+                "dataset_schema": {
                     "patient_id": {"type": "string", "description": "Patient identifier"},
                     "age": {"type": "number", "description": "Patient age"},
                     "diagnosis": {"type": "string", "description": "Medical diagnosis"}
@@ -67,7 +67,7 @@ class NaturalLanguageRequest(BaseModel):
     data_type: str = 'tabular'
     
 class SchemaGenerationResponse(BaseModel):
-    schema: Dict[str, Any]
+    dataset_schema: Dict[str, Any]
     detected_domain: str
     sample_data: List[Dict[str, Any]] = []
     suggestions: List[str] = []

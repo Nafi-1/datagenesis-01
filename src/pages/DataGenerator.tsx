@@ -234,7 +234,7 @@ const DataGenerator: React.FC = () => {
       console.log('✅ Schema generated successfully:', schema);
       
       // Validate the schema response
-      if (!schema || !schema.schema || Object.keys(schema.schema).length === 0) {
+      if (!schema || !schema.dataset_schema || Object.keys(schema.dataset_schema).length === 0) {
         throw new Error('Generated schema is empty or invalid');
       }
       
@@ -243,7 +243,7 @@ const DataGenerator: React.FC = () => {
       
       toast.dismiss();
       toast.success(
-        `${backendHealthy ? '🔗 Backend' : '🏠 Local'} schema generated! Found ${Object.keys(schema.schema).length} fields.`,
+        `${backendHealthy ? '🔗 Backend' : '🏠 Local'} schema generated! Found ${Object.keys(schema.dataset_schema).length} fields.`,
         { duration: 4000 }
       );
       
@@ -292,10 +292,10 @@ const DataGenerator: React.FC = () => {
       
       if (inputMethod === 'upload' && uploadedData) {
         sourceData = uploadedData.data || [];
-        schema = uploadedData.schema || {};
+        schema = uploadedData.dat || {};
       } else if (inputMethod === 'describe' && generatedSchema) {
         sourceData = generatedSchema.sampleData || [];
-        schema = generatedSchema.schema || {};
+        schema = generatedSchema.dat || {};
       }
 
       console.log('🚀 Starting generation with config:', {
@@ -882,7 +882,7 @@ const DataGenerator: React.FC = () => {
                 <div>Input Method: {inputMethod}</div>
                 <div>Generated Schema: {generatedSchema ? 'Yes' : 'No'}</div>
                 <div>Uploaded Data: {uploadedData ? 'Yes' : 'No'}</div>
-                <div>Schema Fields: {generatedSchema ? Object.keys(generatedSchema.schema || {}).length : 0}</div>
+                <div>Schema Fields: {generatedSchema ? Object.keys(generatedSchema.dat || {}).length : 0}</div>
                 <div>Button Enabled: {isGenerationButtonEnabled() ? 'Yes' : 'No'}</div>
                 <div>Gemini: {geminiStatus}</div>
                 <div>Backend: {backendHealthy ? 'Healthy' : 'Offline'}</div>
@@ -978,7 +978,7 @@ const DataGenerator: React.FC = () => {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Fields:</span>
                   <span className="text-white font-medium">
-                    {Object.keys(generatedSchema.schema || {}).length}
+                    {Object.keys(generatedSchema.dat || {}).length}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -1003,16 +1003,16 @@ const DataGenerator: React.FC = () => {
               <div className="mt-4 p-3 bg-gray-700/30 rounded-lg">
                 <p className="text-xs text-gray-400 mb-2">Schema Preview:</p>
                 <div className="space-y-1">
-                  {generatedSchema.schema && Object.keys(generatedSchema.schema).length > 0 ? (
+                  {generatedSchema.dat && Object.keys(generatedSchema.dat).length > 0 ? (
                     <>
-                      {Object.entries(generatedSchema.schema).slice(0, 3).map(([key, value]: [string, any]) => (
+                      {Object.entries(generatedSchema.dat).slice(0, 3).map(([key, value]: [string, any]) => (
                         <div key={key} className="flex justify-between text-xs">
                           <span className="text-gray-300">{key}</span>
                           <span className="text-purple-400">{value.type || 'unknown'}</span>
                         </div>
                       ))}
-                      {Object.keys(generatedSchema.schema).length > 3 && (
-                        <p className="text-xs text-gray-400">... and {Object.keys(generatedSchema.schema).length - 3} more</p>
+                      {Object.keys(generatedSchema.dat).length > 3 && (
+                        <p className="text-xs text-gray-400">... and {Object.keys(generatedSchema.dat).length - 3} more</p>
                       )}
                     </>
                   ) : (

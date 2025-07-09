@@ -50,6 +50,6 @@ class Settings(BaseSettings):
         super().__init__(**kwargs)
         # Ensure we get the GEMINI_API_KEY if it's not loaded properly
         if not self.gemini_api_key:
-            self.gemini_api_key = os.getenv('GEMINI_API_KEY', 'AIzaSyA81SV6mvA9ShZasJgcVl4ps-YQm9DrKsc')
+            self.gemini_api_key = os.getenv('GEMINI_API_KEY', 'AIzaSyDOFWw2dk2W28l52mXJxJXrcdYbxsQz13s')
 
 settings = Settings()

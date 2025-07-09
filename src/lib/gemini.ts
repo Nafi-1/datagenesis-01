@@ -273,12 +273,12 @@ export class GeminiService {
       const parsed = JSON.parse(text);
       
       // Validate and enhance the schema
-      if (!parsed.schema) {
+      if (!parsed.dataset_scema) {
         throw new Error('Invalid schema format');
       }
       
       return {
-        schema: parsed.schema,
+        schema: parsed.dataset_scema,
         detectedDomain: parsed.detectedDomain || domain,
         estimatedRows: parsed.estimatedRows || 10000,
         relationships: parsed.relationships || [],
